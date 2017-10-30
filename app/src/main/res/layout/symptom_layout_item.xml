@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              >
+
+        <CheckBox
+            android:id="@+id/cbSymptom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CheckBox" />
+
+        <EditText
+            android:id="@+id/etEntry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EditText"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/tvUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="TextView" />
+
+</LinearLayout>

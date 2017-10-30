@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:context="com.dodsoneng.falldetector.MainActivity"
+                tools:showIn="@layout/actitvity_main"
+                android:scrollIndicators="right"
+    >
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+
+        >
+
+        <LinearLayout
+        android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+        android:weightSum="1">
+
+            <ImageButton
+                android:id="@+id/emergency"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/icde_guardian_60"
+                android:layout_marginRight="30dp"
+                android:background="?android:attr/colorEdgeEffect"/>
+<!--
+            <ImageButton
+                android:id="@+id/sos"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/icde_sos_60"
+                />
+-->
+            <ToggleButton
+                android:id="@+id/sos"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+
+                android:background="@drawable/btn_sos"
+            android:layout_margin="10dp"
+            android:textOn=""
+            android:textOff=""
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+                />
+
+            <ImageButton
+                android:id="@+id/checkin"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/icde_allgood_60"
+                android:background="@color/common_google_signin_btn_text_dark_default"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            >
+
+            <ImageButton
+                android:id="@+id/remind"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/icde_remind_60"
+                />
+            <ImageButton
+                android:id="@+id/contactbook"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/icde_contact_60"
+                />
+            <ImageButton
+                android:id="@+id/globe"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/icde_globe_60"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            >
+
+            <ImageButton
+                android:id="@+id/search"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_weight="0.00"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/icde_search_60"
+                />
+            <ImageButton
+                android:id="@+id/health"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/icde_heatlh_60"
+                />
+            <ImageButton
+                android:id="@+id/braingames"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/icde_braingames_60"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/signals"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@android:drawable/ic_menu_view"
+                android:drawableStart="@android:drawable/ic_menu_view"
+                android:text="@string/signals" />
+            <Button
+                android:id="@+id/turnoff"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/turnoff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/getconfig"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@android:drawable/ic_menu_view"
+                android:drawableStart="@android:drawable/ic_menu_view"
+                android:text="GET CONFIG (hardcoded)" />
+        </LinearLayout>
+
+        <WebView
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>

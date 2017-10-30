@@ -1,0 +1,73 @@
+apply plugin: 'com.android.model.application'
+
+
+model {
+
+
+    android {
+        compileSdkVersion 25
+        buildToolsVersion "25"
+
+        defaultConfig {
+            applicationId "com.dodsoneng.falldetector"
+            minSdkVersion.apiLevel 22
+            targetSdkVersion.apiLevel 25
+            versionCode 1
+            versionName "a3.7"
+            project.ext.set("archivesBaseName", "detector-a3.7")
+            buildConfigFields {
+                create() {
+                    type "int"
+                    name "VALUE"
+                    value "1"
+                }
+            }
+        }
+    }
+
+
+    android.ndk {
+        platformVersion = 24
+        moduleName = 'detector'
+        toolchain = 'clang'
+        CFlags.add('-fintegrated-as')
+        CFlags.add('-std=c99')
+        ldLibs.addAll(['android','OpenSLES', 'log'])
+    }
+    /*
+    android.productFlavors {
+        create("flavor1") {
+            applicationId "com.dodsoneng.falldetector"
+        }
+    }
+    */
+
+    android.buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles.add(file("proguard-rules.pro"))
+        }
+        debug {
+        }
+
+    }
+}
+    dependencies {
+        compile fileTree(dir: 'libs', include: ["*.jar"])
+//        compile 'com.android.support:appcompat-v7:24.2.0'
+//        compile 'com.android.support:design:24.2.0'
+        compile 'com.android.support:appcompat-v7:25.0.0'
+        compile 'com.android.support:design:25.0.0'
+        compile 'com.google.android.gms:play-services-location:9.8.0'
+
+/// To update a Google SpreadSheet
+//        compile 'com.google.android.gms:play-services-auth:10.0.1'
+        compile 'com.google.android.gms:play-services-auth:9.8.0'
+        compile 'pub.devrel:easypermissions:0.2.1'
+        compile('com.google.api-client:google-api-client-android:1.22.0') {
+            exclude group: 'org.apache.httpcomponents'
+        }
+        compile('com.google.apis:google-api-services-sheets:v4-rev38-1.22.0') {
+            exclude group: 'org.apache.httpcomponents'
+        }
+    }
