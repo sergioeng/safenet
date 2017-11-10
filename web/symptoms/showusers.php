@@ -37,7 +37,7 @@ if ($numRowsFound > 0) {
 	    
 	    //fwrite ($file_log, $row);
 
-	    $user_id		= $row['USER_ID'];	   
+	    $id		= $row['ID'];	   
 	    $name       = $row['NAME'];
 	    $phone_num  = $row['PHONE_NUM'];
 	    $imei       = $row['IMEI'];
@@ -51,16 +51,12 @@ if ($numRowsFound > 0) {
                 echo "<td>{$pat_or_gua}</td>";
                 echo "<td style='text-align:center;'>";
 		  // add the record id here
-		  echo "<div class='dataId' style='display:none'>{$user_id}</div>";
+		  echo "<div class='dataId' style='display:none'>{$id}</div>";
 					
 		  //we will use this links on next part of this post
-//		  echo "<div class='container'>";  
-		  echo "<div class='settingsBtn btn btn-mini btn-primary'> SETTINGS </div>";
-//		  echo "  ";
-//		  echo "<div class='symptomsBtn  btn btn-mini btn-primary'> SYMPTOMS </div>";
-//		  echo "  ";
-//		  echo "<div class='scheduleBtn btn btn-mini btn-primary'> SCHEDULE </div>";
-//                  echo "</div>";
+		  echo "  ";
+		  echo "<div class='symptomsBtn  btn btn-mini btn-primary'> SYMPTOMS </div>";
+		  echo "  ";
 					
 		  //we will use this links on next part of this post
 		  //echo "<div class='deleteBtn btn btn-mini btn-danger'>RMV</div>";
@@ -80,12 +76,12 @@ else {
 echo "
 <script type='text/javascript'>
 
-  var entity = \"settings\" ;
+  var entity = \"symptoms\" ;
 
   $(document).ready(function(){
  
-    // clicking the SETTINGS button
-    $(document).on('click', '.settingsBtn', function(){ 
+    // clicking the SYMPTOMS button
+    $(document).on('click', '.symptomsBtn', function(){ 
     
         var data_id = $(this).closest('td').find('.dataId').text();
         
@@ -94,27 +90,38 @@ echo "
         // show a loader image
         $('#loaderImage').show();
 
-        setTimeout(\"$('#pageContent').load('\" + entity +\"/settings_form.php?data_id=\" + data_id + \"', function(){ $('#loaderImage').hide(); });\",1000);
-        ///$.post('\" + entity +\"/settings_form.php?data_id=\" + data_id);
-        
+        setTimeout(\"$('#pageContent').load('\" + entity +\"/showsymptoms.php?user_id=\" + data_id + \"', function() { $('#loaderImage').hide(); });\",1000);
     }); 
-    
-        
-    // UPDATE FORM IS SUBMITTED
-     $(document).on('submit', '#settingsUpdateDataForm', function() {
+
+        // UPDATE FORM IS SUBMITTED
+     $(document).on('submit', '#symptomsUpdateDataForm', function() {
 
         // show a loader img
         $('#loaderImage').show();
         
         // post the data from the form
-        $.post(entity +\"/settings_update.php\", $(this).serialize()).done(function(data) {
+        $.post(entity +\"/symptoms_update.php\", $(this).serialize()).done(function(data) {
                 // 'data' is the text returned, you can do any conditions based on that
-                showUsers();
+                showSymptoms();
         });
-                 
+               
         return true;
     });
-  });
+
+ 
+});
+
+function showSymptoms(){
+
+    // read and show the records after at least a second
+    // we use setTimeout just to show the image loading effect when you have a very fast server
+    // otherwise, you can just do: $('#pageContent').load('read.php', function(){ $('#loaderImage').hide(); });
+    // THIS also hides the loader image
+    var link = entity + \"/showsymptoms.php?user_id=\" + user_id ;
+    $('#pageContent').load(link, function(){ $('#loaderImage').hide(); });
+}
+
+
 </script>
 ";
 ?>

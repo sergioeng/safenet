@@ -73,8 +73,8 @@ try {
 	    for ($i = 0; $i < $NUM_PARAMS; $i++) {
 	        /// Insert default settings in databese
 	        $query = "INSERT INTO SETTINGS 
-		      (user_id, name, type, value) VALUES
-		      ('$user_id', '$name[$i]','$type[$i]', '$value[$i]') ";
+		      (user_id, id, name, type, value) VALUES
+		      ('$user_id', '$id[$i]', '$name[$i]','$type[$i]', '$value[$i]') ";
 	        $ret = $sqlHelper->insert ($query);
 	    }
 	}

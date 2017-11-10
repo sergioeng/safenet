@@ -21,8 +21,8 @@
 		<li class="active"><a href="index.php" >Principal</a></li>
 		<li><a href="main_users.php"           >Users</a></li>
 		<li><a href="main_settings.php"        >Settings</a>	</li>
-		<li><a href="main_schedule.php"        >Colaboradores</a></li>
-		<li><a href="relatorios.php"           >Relatorios</a></li>
+		<li><a href="main_symptoms.php"        >Symptoms</a></li>
+		<li><a href="main_schedule.php"        >Schedule</a></li>
 		<li><a href="help.php"                 >Help</a></li>
     </ul>
   </div>

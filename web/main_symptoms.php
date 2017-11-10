@@ -1,10 +1,8 @@
 <?php
 	$filename = basename(__FILE__, '.php');
-	
 	include_once("inc/auth.inc.php");
 	include('header.php');
 	$sqlHelper = new SqlHelper;
-	
 ?>
 
 <body>
@@ -71,9 +69,13 @@
 			<!-- this is wher the contents will be shown. -->
 			<div id='pageContent'></div>
 </body>
-<script type='text/javascript'>
-  var entity = "settings";
 
+
+
+
+
+<script type='text/javascript'>
+	var entity = "symptoms";
   $(document).ready(function(){
     
     // VIEW USERS on load of the page

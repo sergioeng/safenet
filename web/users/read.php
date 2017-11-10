@@ -37,7 +37,7 @@ if ($numRowsFound > 0) {
 	    
 	    //fwrite ($file_log, $row);
 
-	    $id		= $row['ID'];	   
+	    $user_id	= $row['USER_ID'];	   
 	    $name       = $row['NAME'];
 	    $phone_num  = $row['PHONE_NUM'];
 	    $imei       = $row['IMEI'];
@@ -51,7 +51,7 @@ if ($numRowsFound > 0) {
                 echo "<td>{$pat_or_gua}</td>";
                 echo "<td style='text-align:center;'>";
 					// add the record id here
-					echo "<div class='dataId' style='display:none'>{$id}</div>";
+					echo "<div class='dataId' style='display:none'>{$user_id}</div>";
 					
                     //we will use this links on next part of this post
                     echo "<div class='editBtn btn btn-mini btn-warning'>EDT</div>";
