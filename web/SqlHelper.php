@@ -10,10 +10,10 @@ class SqlDbInfo extends SqlAbsDbInfo {
 	
 	public function __construct()
 	{
-		$this->HOST_NAME     = 'localhost';
+		$this->HOST_NAME     = 'safenet.mysql.dbaas.com.br';
 		$this->DATABASE_NAME = 'safenet';
-		$this->DB_USERNAME   = 'root';
-		$this->DB_PASSWORD   = 'modfrag';
+		$this->DB_USERNAME   = 'safenet';
+		$this->DB_PASSWORD   = 'pinico18';
 	}
 }
 

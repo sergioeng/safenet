@@ -60,16 +60,22 @@
 </html>
 
 
-<script type='text/javascript'>
-	var entity = "users";
+<!--
+//----------------------------------------------------------------------------------------
+// JAVA SCRIPTS SECTION
+// 
+//----------------------------------------------------------------------------------------
+-->
 
-$(document).ready(function(){
+<script type='text/javascript'>
+
+$(document).ready(function() {
     
-    // VIEW USERS on load of the page
+    // Force to show users on load of the page
     $('#loaderImage').show();
     showUsers();
     
-    // clicking the 'VIEW USERS' button
+    // Show users when clicking on 'USERS' button
     $('#viewData').click(function(){
         // show a loader img
         $('#loaderImage').show();
@@ -77,107 +83,102 @@ $(document).ready(function(){
         showUsers();
     });
     
-    // clicking the '+ NEW DADO' button
+    // Display ADD FORM when clicking on '+ NEW xxxx' button
     $('#addUser').click(function(){
-        showCreateUserForm();
+        showAddUserForm();
+    });
+    
+
+    // ADD FORM IS SUBMITTED 
+    $(document).on('submit', '#addUserForm', function() {
+        $('#loaderImage').show();
+
+        var name = document.forms["addUserForm"]["name"].value;
+        var user = {"NAME":document.forms["addUserForm"]["name"].value, 
+                    "PHONE_NUM":document.forms["addUserForm"]["phone_num"].value,  
+                    "IMEI":document.forms["addUserForm"]["imei"].value, 
+                    "TYPE":document.forms["addUserForm"]["type"].value};
+//        console.log (user);
+
+		$.ajax({
+            type: "POST",
+            data :JSON.stringify(user),
+            url: "/user/add/",
+            contentType: "application/json"
+        }).done(function() {
+            showUsers();
+        }); 
+        
+//        console.log ("End of AJAX");
+        
+        return false;
     });
 
-    // clicking the EDIT button
+    // UPDATE FORM IS SUBMITTED
+    $(document).on('submit', '#updateUserForm', function() {
+
+        $('#loaderImage').show();
+
+        var name = document.forms["updateUserForm"]["name"].value;
+        var user = {"NAME":document.forms["updateUserForm"]["name"].value, 
+                    "PHONE_NUM":document.forms["updateUserForm"]["phone_num"].value,  
+                    "IMEI":document.forms["updateUserForm"]["imei"].value, 
+                    "TYPE":document.forms["updateUserForm"]["type"].value};
+//        console.log (user);
+
+        var data_id = document.forms["updateUserForm"]["data_id"].value;
+        
+        $.ajax({
+            type: "POST",
+            data :JSON.stringify(user),
+            url: "/user/u/"+data_id+"/",
+            contentType: "application/json"
+        }).done(function() {
+            showUsers();
+        }); 
+        
+        return false;
+    });
+
+    
+    // When clicking the DELETE button
+    $(document).on('click', '.deleteBtn', function(){ 
+        if(confirm('Are you sure?')) {
+            var data_id = $(this).closest('td').find('.dataId').text();
+//            console.log("Deleting row: [" + data_id + "]");
+            $.post("/user/d/" + data_id + "/")
+             .done(function(data) {
+//                  console.log(data);
+                  $('#loaderImage').show();
+                  showUsers();
+             });
+        }
+    });
+    
+    // Wen clicking the EDIT button
     $(document).on('click', '.editBtn', function(){ 
     
         var data_id = $(this).closest('td').find('.dataId').text();
-        console.log(data_id);
+//        console.log(data_id);
         
         // show a loader image
         $('#loaderImage').show();
 
-        // read and show the records after 1 second
-        // we use setTimeout just to show the image loading effect when you have a very fast server
-        // otherwise, you can just do: $('#pageContent').load('update_form.php?data_id=" + data_id + "', function(){ $('#loaderImage').hide(); });
-        setTimeout("$('#pageContent').load('" + entity +"/update_form.php?data_id=" + data_id + "', function(){ $('#loaderImage').hide(); });",1000);
+        setTimeout("$('#pageContent').load('/user/updform/" + data_id + "/', function(){ $('#loaderImage').hide(); });",1000);
         
     }); 
-    
-    
-    // when clicking the DELETE button
-    $(document).on('click', '.deleteBtn', function(){ 
-        if(confirm('Voce tem certeza?')){
-        
-            // get the id
-            var data_id = $(this).closest('td').find('.dataId').text();
-            console.log(data_id);
-            
-            // trigger the delete file
-//old            $.post(entity+"/delete.php", { id: data_id })
-            $.post(entity+"/delete.php?data_id=" + data_id)
-                .done(function(data) {
-                    // you can see your console to verify if record was deleted
-                    console.log(data);
-                    
-                    $('#loaderImage').show();
-                    
-                    // reload the list
-                    showUsers();
-                    
-                });
-
-        }
-    });
-    
-    
-    // CREATE FORM IS SUBMITTED
-     $(document).on('submit', '#addUserForm', function() {
-
-        // show a loader img
-        $('#loaderImage').show();
-        
-        // post the data from the form
-        $.post(entity +"/create.php", $(this).serialize())
-            .done(function(data) {
-                // 'data' is the text returned, you can do any conditions based on that
-                showUsers();
-            });
-                
-        return false;
-    });
-    
-    // UPDATE FORM IS SUBMITTED
-     $(document).on('submit', '#updateDataForm', function() {
-
-console.log ("update data");
-        // show a loader img
-        $('#loaderImage').show();
-        
-        // post the data from the form
-        $.post(entity +"/update.php", $(this).serialize())
-            .done(function(data) {
-                // 'data' is the text returned, you can do any conditions based on that
-                showUsers();
-            });
-                
-        return false;
-    });
     
 });
 
 // READ USERS
 function showUsers(){
-    // read and show the records after at least a second
-    // we use setTimeout just to show the image loading effect when you have a very fast server
-    // otherwise, you can just do: $('#pageContent').load('read.php', function(){ $('#loaderImage').hide(); });
-    // THIS also hides the loader image
-    setTimeout("$('#pageContent').load('"+ entity +"/read.php', function(){ $('#loaderImage').hide(); });", 1000);
+    setTimeout("$('#pageContent').load('/user/shwform/', function(){ $('#loaderImage').hide(); });", 1000);
 }
 
-// CREATE USER FORM
-function showCreateUserForm(){
-    // show a loader image
+// ADD USER FORM
+function showAddUserForm(){
     $('#loaderImage').show();
-    
-    // read and show the records after 1 second
-    // we use setTimeout just to show the image loading effect when you have a very fast server
-    // otherwise, you can just do: $('#pageContent').load('read.php');
-    setTimeout("$('#pageContent').load('"+ entity +"/create_form.php', function(){ $('#loaderImage').hide(); });",1000);
+    setTimeout("$('#pageContent').load('/user/addform/', function(){ $('#loaderImage').hide(); });",1000);
 }
 </script>
 

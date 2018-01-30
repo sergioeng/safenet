@@ -1,0 +1,13 @@
+##### LOCAWEB - NAO REMOVER #####
+AddHandler php54-script .php
+suPHP_ConfigPath /home/pwdefesa/
+##### LOCAWEB - NAO REMOVER #####
+
+# Turn rewrite engine on
+Options +FollowSymlinks
+RewriteEngine on
+
+# map neat URL to internal URL
+RewriteRule ^user/add/              safenet/controllers/UsersController.php?view=add [nc,qsa]
+RewriteRule ^user/list/?$           safenet/controllers/UsersController.php?view=all [nc,qsa]
+RewriteRule ^user/list/([0-9]+)/$   safenet/controllers/UsersController.php?view=single&id=$1 [nc,qsa]
