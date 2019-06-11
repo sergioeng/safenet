@@ -74,6 +74,6 @@ public class Detector {
     }
     */
     static {
-        System.loadLibrary("detector");
+        System.loadLibrary("detector-lib");
     }
 }

@@ -1,73 +1,90 @@
-apply plugin: 'com.android.model.application'
+apply plugin: 'com.android.application'
+
+   android {
+       compileSdkVersion 28
+       defaultConfig {
+           applicationId "com.dodsoneng.falldetector"
+           minSdkVersion 23
+           targetSdkVersion 25
+           versionCode 1
+           versionName "a3.7"
+//           project.ext.set("archivesBaseName", "detector-a3.7")
+//           ndk {
+//               platformVersion = 24
+//               moduleName = 'detector'
+//               toolchain = 'clang'
+//               CFlags.add('-fintegrated-as')
+//               CFlags.add('-std=c99')
+//               ldLibs.addAll(['android','OpenSLES', 'log'])
+//               abiFilters "x86", "armeabi-v7a", "armeabi"
+//           }
+           // android.ndk
+
+           externalNativeBuild {
+               cmake {
+                   // Passes optional arguments to CMake.
+                   arguments "-DANDROID_TOOLCHAIN=clang"
+
+                   // Sets a flag to enable format macro constants for the C compiler.
+                   cFlags "-std=c99 -fintegrated-as -D__STDC_FORMAT_MACROS"
+                   cppFlags "-std=c++11 -fexceptions"
 
 
-model {
+                   // Sets optional flags for the C++ compiler.
+                   //cppFlags "-fexceptions", "-frtti"
+                   //cppFlags "-std=c99", "-fintegrated-as"
+
+               }
+           }
+       }
 
 
-    android {
-        compileSdkVersion 25
-        buildToolsVersion "25"
-
-        defaultConfig {
-            applicationId "com.dodsoneng.falldetector"
-            minSdkVersion.apiLevel 22
-            targetSdkVersion.apiLevel 25
-            versionCode 1
-            versionName "a3.7"
-            project.ext.set("archivesBaseName", "detector-a3.7")
-            buildConfigFields {
-                create() {
-                    type "int"
-                    name "VALUE"
-                    value "1"
-                }
-            }
-        }
-    }
+       signingConfigs {
+           release {
+              storeFile file("/home/eng/workspace/_KEYSTORE/shield.upload.jks")
+              storePassword "qwertqwert"
+              keyAlias "upload"
+              keyPassword "qwertqwert"
+           }
+       }
 
 
-    android.ndk {
-        platformVersion = 24
-        moduleName = 'detector'
-        toolchain = 'clang'
-        CFlags.add('-fintegrated-as')
-        CFlags.add('-std=c99')
-        ldLibs.addAll(['android','OpenSLES', 'log'])
-    }
-    /*
-    android.productFlavors {
-        create("flavor1") {
-            applicationId "com.dodsoneng.falldetector"
-        }
-    }
-    */
+       buildTypes {
+           release {
+              minifyEnabled true
+              proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+              applicationIdSuffix ".release"
+              signingConfig signingConfigs.release
+           }
+           debug {
+              debuggable true
+           }
+       }
 
-    android.buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles.add(file("proguard-rules.pro"))
-        }
-        debug {
-        }
+       lintOptions {
+           checkReleaseBuilds false
+           // Or, if you prefer, you can continue to check for errors in release builds,
+           // but continue the build even when errors are found:
+           abortOnError false
+       }
+       externalNativeBuild {
+           cmake {
+               path file('CMakeLists.txt')
+           }
+       }
+       // android.buildTypes
 
-    }
+   } // android
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ["*.jar"])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation 'pub.devrel:easypermissions:0.2.1'
 }
-    dependencies {
-        compile fileTree(dir: 'libs', include: ["*.jar"])
-//        compile 'com.android.support:appcompat-v7:24.2.0'
-//        compile 'com.android.support:design:24.2.0'
-        compile 'com.android.support:appcompat-v7:25.0.0'
-        compile 'com.android.support:design:25.0.0'
-        compile 'com.google.android.gms:play-services-location:9.8.0'
 
-/// To update a Google SpreadSheet
-//        compile 'com.google.android.gms:play-services-auth:10.0.1'
-        compile 'com.google.android.gms:play-services-auth:9.8.0'
-        compile 'pub.devrel:easypermissions:0.2.1'
-        compile('com.google.api-client:google-api-client-android:1.22.0') {
-            exclude group: 'org.apache.httpcomponents'
-        }
-        compile('com.google.apis:google-api-services-sheets:v4-rev38-1.22.0') {
-            exclude group: 'org.apache.httpcomponents'
-        }
-    }

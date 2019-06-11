@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.Uri;
+import android.support.annotation.Keep;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ import com.dodsoneng.falldetector.Telephony;
 import com.dodsoneng.falldetector.models.EventInfo;
 
 import static com.dodsoneng.falldetector.models.EventInfo.FALL;
-
+@Keep
 public class Phone {
 
     private static String TAG = "FD.PHONE";

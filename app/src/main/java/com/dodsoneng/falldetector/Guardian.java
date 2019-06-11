@@ -53,6 +53,7 @@ public class Guardian extends Service {
         context = getApplicationContext();
         positioning = Positioning.initiate(context);
         Detector.initiate(context);
+        Log.d(TAG, "onCreate() ... end");
     }
 
     public static void initiate(Context context) {

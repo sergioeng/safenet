@@ -29,6 +29,7 @@ SOFTWARE.
 #include <string.h>
 #include <android/looper.h>
 #include <math.h>
+#include <malloc.h>
 #include "detector.h"
 
 #define LINEAR(Before, Ante, After, Post, Now) (Ante + (Post - Ante) * (jdouble)(Now - Before) / (jdouble)(After - Before))
@@ -291,16 +292,17 @@ void InitiateSensor(StateStructure *State) {
     ASensorEventQueue_setEventRate(State->Queue, Sensor, INTERVAL_MS * 1000);
 }
 
-JNIEXPORT void JNICALL Java_com_dodsoneng_falldetector_Detector_initiate(JNIEnv *JNI, jclass SelfClass,
-                                                                    jobject Context) {
+JNIEXPORT void JNICALL Java_com_dodsoneng_falldetector_Detector_initiate(JNIEnv *JNI, jclass SelfClass, jobject Context) {
+    static StateStructure stateStructure;
+
     if (NULL == State) {
-        StateStructure *Blank = (StateStructure *) malloc(sizeof(StateStructure));
+    //    StateStructure *Blank = (StateStructure *) malloc(sizeof(StateStructure));
+        StateStructure *Blank = (StateStructure *) & stateStructure;
         Blank->JNI = JNI;
         Blank->Context = (*JNI)->NewGlobalRef(JNI, Context);
         Blank->PhoneClass = (*JNI)->FindClass(JNI, "com/dodsoneng/falldetector/tools/Phone");
         Blank->PhoneClass = (*JNI)->NewGlobalRef(JNI, Blank->PhoneClass);
-        Blank->PhoneCall = (*JNI)->GetStaticMethodID(JNI, Blank->PhoneClass, "call",
-                                                     "(Landroid/content/Context;)V");
+        Blank->PhoneCall = (*JNI)->GetStaticMethodID(JNI, Blank->PhoneClass, "call", "(Landroid/content/Context;)V");
         Blank->PhoneFall = (*JNI)->GetStaticMethodID(JNI, Blank->PhoneClass, "fall", "()V");
         InitiateBuffer(Blank);
         InitiateSamples(Blank);
