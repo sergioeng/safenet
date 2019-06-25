@@ -10,6 +10,8 @@ import com.dodsoneng.falldetector.Telephony;
 import com.dodsoneng.falldetector.models.EventInfo;
 import com.dodsoneng.falldetector.tools.PostJSON;
 
+import org.json.JSONObject;
+
 import java.util.Locale;
 import java.util.TimerTask;
 
@@ -86,13 +88,6 @@ public class Event extends TimerTask {
 
     }
 
-    /*
-    private static void checkin ()   {sendDataToServer(EventInfo.getName (EventInfo.CHECKIN, EventInfo.getType (EventInfo.CHECKIN, getStatusText());}
-    private static void emergency () {sendDataToServer(EventInfo.getName (EventInfo.EMERGENCY, EventInfo.getType (EventInfo.EMERGENCY, getStatusText());}
-    private static void fall ()      {sendDataToServer(EventInfo.getName (EventInfo.FALL, EventInfo.getType (EventInfo.FALL, getStatusText());}
-    private static void sos ()       {sendDataToServer(EventInfo.getName (EventInfo.SOS, EventInfo.getType (EventInfo.SOS, getStatusText());}
-    private static void battery ()   {sendDataToServer(EventInfo.getName (EventInfo.BATTERY, EventInfo.getType (EventInfo.BATTERY, getStatusText()); }
-    */
 
     public static void sendDataToServer () {
 /*
@@ -102,40 +97,72 @@ public class Event extends TimerTask {
             return;
         }
 */
+        Log.d (TAG, "sendDataToServer ()");
 
         setTime(EventInfo.getType (BATTERY));
         try {
-            //mURL = "http://10.10.11.231/safenet/teste.php";
             PostJSON post = new PostJSON(mURL);
-            post.execute("userid", mDeviceId,
-                         "timestamp", String.valueOf (mEventTime [getEventIndex (EventInfo.getType (CHECKIN))]),
-                         "name", EventInfo.getName (CHECKIN),
-                         "type", EventInfo.getType (CHECKIN),
-                         "complement", getStatusText());
+
+            JSONObject jsonObj = new JSONObject();
+
+            jsonObj.put ("userid", mDeviceId);
+            jsonObj.put ("latitude", getLatitude());
+            jsonObj.put ("longitude", getLongitude());
+            jsonObj.put ("battery", getBattery());
+            jsonObj.put ("timestamp", String.valueOf (mEventTime [getEventIndex (EventInfo.getType (CHECKIN))]));
+            jsonObj.put ("name", EventInfo.getName (CHECKIN));
+            jsonObj.put ("type", EventInfo.getType (CHECKIN));
+
+            Log.d (TAG, "---------------jsonObj: " + jsonObj);
+
+            post.execute(jsonObj);
+            /*
+            {
+	"userid": "3128309218",
+	"type": "CheckIn",
+	"timestamp": "2019-06-15T00:10:53.772Z",
+	"latitude": 23.55,
+	"longitude": 46.63
+            }
+             */
+            /*   a partir daqui
             post = new PostJSON(mURL);
             post.execute("userid", mDeviceId,
                     "timestamp", String.valueOf (mEventTime [getEventIndex (EventInfo.getType (EMERGENCY))]),
                     "name", EventInfo.getName (EMERGENCY),
                     "type", EventInfo.getType (EMERGENCY),
-                    "complement", getStatusText());
+                    "latitude", getLatitude(),
+                    "longitude", getLongitude(),
+                    "battery", getBattery()
+            );
             post = new PostJSON(mURL);
             post.execute("userid", mDeviceId,
                     "timestamp", String.valueOf (mEventTime [getEventIndex (EventInfo.getType (SOS))]),
                     "name", EventInfo.getName (SOS),
                     "type", EventInfo.getType (SOS),
-                    "complement", getStatusText());
+                    "latitude", getLatitude(),
+                    "longitude", getLongitude(),
+                    "battery", getBattery()
+            );
             post = new PostJSON(mURL);
             post.execute("userid", mDeviceId,
                     "timestamp", String.valueOf (mEventTime [getEventIndex (EventInfo.getType (BATTERY))]),
                     "name", EventInfo.getName (BATTERY),
                     "type", EventInfo.getType (BATTERY),
-                    "complement", getStatusText());
+                    "latitude", getLatitude(),
+                    "longitude", getLongitude(),
+                    "battery", getBattery()
+            );
             post = new PostJSON(mURL);
             post.execute("userid", mDeviceId,
                     "timestamp", String.valueOf (mEventTime [getEventIndex (EventInfo.getType (FALL))]),
                     "name", EventInfo.getName (FALL),
                     "type", EventInfo.getType (FALL),
-                    "complement", getStatusText());
+                    "latitude", getLatitude(),
+                    "longitude", getLongitude(),
+                    "battery", getBattery()
+            );
+            ****/
         }
 
         catch (Exception e) {
@@ -147,6 +174,40 @@ public class Event extends TimerTask {
 
     public static void setURL (String url) {
         mURL = url;
+    }
+
+    private static String getBattery () {
+        int         battery = Battery.level(mContext);
+//        status = String.format(Locale.US, "%d", battery);
+        return Integer.toString(battery);
+    }
+
+    private static double getLatitude () {
+      if (mPositioning == null) {
+            return 0.0;
+        }
+
+        Location location = mPositioning.getLocation();
+
+        if (location == null) {
+            return 0.0;
+        }
+
+        return (location.getLatitude());
+    }
+    private static double getLongitude () {
+
+        if (mPositioning == null) {
+            return 0.0;
+        }
+
+        Location location = mPositioning.getLocation();
+
+        if (location == null) {
+            return 0.0;
+        }
+
+        return (location.getLongitude());
     }
 
     public static String getStatusText () {

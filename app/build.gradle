@@ -8,17 +8,6 @@ apply plugin: 'com.android.application'
            targetSdkVersion 25
            versionCode 1
            versionName "a3.7"
-//           project.ext.set("archivesBaseName", "detector-a3.7")
-//           ndk {
-//               platformVersion = 24
-//               moduleName = 'detector'
-//               toolchain = 'clang'
-//               CFlags.add('-fintegrated-as')
-//               CFlags.add('-std=c99')
-//               ldLibs.addAll(['android','OpenSLES', 'log'])
-//               abiFilters "x86", "armeabi-v7a", "armeabi"
-//           }
-           // android.ndk
 
            externalNativeBuild {
                cmake {
@@ -38,7 +27,6 @@ apply plugin: 'com.android.application'
            }
        }
 
-
        signingConfigs {
            release {
               storeFile file("/home/eng/workspace/_KEYSTORE/shield.upload.jks")
@@ -47,7 +35,6 @@ apply plugin: 'com.android.application'
               keyPassword "qwertqwert"
            }
        }
-
 
        buildTypes {
            release {

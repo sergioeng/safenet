@@ -32,7 +32,7 @@ import java.net.URL;
  * Placing the API calls in their own task ensures the UI stays responsive.
  */
 
-public class PostJSON extends AsyncTask<String, Void, String> {
+public class PostJSON extends AsyncTask<JSONObject, Void, String> {
     private static String TAG = "FD.TOOLS.PostJSON......";
     private static String mURL;
 
@@ -46,13 +46,9 @@ public class PostJSON extends AsyncTask<String, Void, String> {
     /**
      * Background task to call Google Sheets API.
      */
-    @Override
-    protected  String doInBackground(String... value) {
-
-//        Log.d (TAG, "doInBackground: arguments lenght=" + value.length);
-//        for (int i = 0; i < value.length ; i += 2) Log.d (TAG, "doInBackground: arguments pair=("+value [i]+","+value[i+1]+")");
+    protected  String doInBackground(JSONObject ... _jsonObj) {
         try {
-            return post (value );
+            return post (_jsonObj[0]);
         }
         catch (Exception e) {
             mLastError = e;
@@ -67,17 +63,9 @@ public class PostJSON extends AsyncTask<String, Void, String> {
      * @return List of names and majors
      * @throws IOException
      */
-    protected  String post (String... value) throws IOException {
+    protected  String post (JSONObject _jsonObj) throws IOException {
         StringBuffer response = null;
         try {
-
-            JSONObject parameters = new JSONObject();
-
-            for (int i = 0; i < value.length; i += 2) {
-                parameters.put(value [i], value [i+1]);
-            }
-
-
             URL url = new URL(mURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000);
@@ -87,9 +75,9 @@ public class PostJSON extends AsyncTask<String, Void, String> {
             conn.setRequestMethod("POST");
             OutputStream out = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-            writer.write(parameters.toString());
+            writer.write(_jsonObj.toString());
             Log.d (TAG,"POST request to URL : " + url);
-            Log.d (TAG,"JASON PARAM         : " + parameters.toString());
+            Log.d (TAG,"JASON PARAM         : " + _jsonObj.toString());
 
 
             writer.close();
@@ -110,7 +98,12 @@ public class PostJSON extends AsyncTask<String, Void, String> {
 //                in.reset();
             Log.d (TAG,"Response in universal: " + response.toString());
 
-        } catch (Exception exception) {
+        }
+        catch (java.net.MalformedURLException ex) {
+            Log.d (TAG,"java.net.MalformedURLException: [" + mURL + "]");
+            return "FAILED";
+        }
+        catch (Exception exception) {
             Log.d (TAG,"Exception: " + exception);
             return "FAILED";
         }

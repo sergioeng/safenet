@@ -18,7 +18,7 @@
     <string name="key_url_event">URLEVE</string>
     <string name="title_url_event">Type URL</string>
     <string name="dialog_title_url_event">Event URL</string>
-    <string name="url_event">http://10.10.11.231/api/criarEvento</string>
+    <string name="url_event">https://us-central1-arpnet-4dfe4.cloudfunctions.net/app/api/events/</string>
 
     <string name="key_url_configuration">URLCFG</string>
     <string name="title_url_configuration">Type URL</string>
