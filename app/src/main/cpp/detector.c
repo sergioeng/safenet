@@ -303,7 +303,7 @@ JNIEXPORT void JNICALL Java_com_dodsoneng_falldetector_Detector_initiate(JNIEnv 
         Blank->PhoneClass = (*JNI)->FindClass(JNI, "com/dodsoneng/falldetector/tools/Phone");
         Blank->PhoneClass = (*JNI)->NewGlobalRef(JNI, Blank->PhoneClass);
         Blank->PhoneCall = (*JNI)->GetStaticMethodID(JNI, Blank->PhoneClass, "call", "(Landroid/content/Context;)V");
-        Blank->PhoneFall = (*JNI)->GetStaticMethodID(JNI, Blank->PhoneClass, "fall", "()V");
+        Blank->PhoneFall = (*JNI)->GetStaticMethodID(JNI, Blank->PhoneClass, "fall", "(Landroid/content/Context;)V");
         InitiateBuffer(Blank);
         InitiateSamples(Blank);
         InitiateResampling(Blank);

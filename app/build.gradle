@@ -38,7 +38,9 @@ apply plugin: 'com.android.application'
 
        buildTypes {
            release {
-              minifyEnabled true
+               debuggable true
+
+               minifyEnabled true
               proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
               applicationIdSuffix ".release"
               signingConfig signingConfigs.release

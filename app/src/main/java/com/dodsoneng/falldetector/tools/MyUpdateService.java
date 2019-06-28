@@ -28,7 +28,6 @@ public class MyUpdateService extends IntentService {
 
     private static String TAG = "FD.TOOLS.MyUpdateService....";
 
-
     public MyUpdateService() {
         super("MyUpdateService");
     }
@@ -37,9 +36,11 @@ public class MyUpdateService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         // Do the task here
 
-        Log.i("MyUpdateService", "Service running");
-        Event.sendDataToServer();
-        Configuration.getDataFromServer();
+        Log.i(TAG, "Service running");
+        Event event = Event.initiate(getApplicationContext());
+        Configuration config = Configuration.initiate(getApplicationContext());
+        event.sendDataToServer();
+        config.getDataFromServer();
 
     }
 }

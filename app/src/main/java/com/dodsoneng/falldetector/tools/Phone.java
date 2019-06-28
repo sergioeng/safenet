@@ -96,10 +96,10 @@ public class Phone {
         }
     }
 
-    public static void fall () {
+    public static void fall (Context _context) {
 
-
-        Event.setTime(EventInfo.getType(FALL));
+        Event eve = Event.initiate(_context);
+        eve.setTime(EventInfo.getType(FALL));
     }
 
 

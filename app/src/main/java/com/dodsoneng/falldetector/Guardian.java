@@ -23,16 +23,12 @@ SOFTWARE.
 */
 package com.dodsoneng.falldetector;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.TaskStackBuilder;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -43,15 +39,14 @@ public class Guardian extends Service {
 
     private static int NOTIFICATION_ID = 1;
     private static Intent intent = null;
-    private Context context;
     private NotificationManager gNotificationManager;
-    private Positioning positioning;
+    private static  Positioning mPositioning;
 
     @Override
     public void onCreate() {
         Log.d(TAG, "onCreate()");
-        context = getApplicationContext();
-        positioning = Positioning.initiate(context);
+        Context context = getApplicationContext();
+        mPositioning = Positioning.initiate(context);
         Detector.initiate(context);
         Log.d(TAG, "onCreate() ... end");
     }
@@ -69,10 +64,12 @@ public class Guardian extends Service {
 
         context.stopService(intent);
         Telephony.handsfree(context, false);
-                        /*
-                Intent intentMyService = new Intent(this, Telephony.class);
-                stopService(intentMyService);
-                */
+
+        /*
+        Intent intentMyService = new Intent(this, Telephony.class);
+        stopService(intentMyService);
+        */
+        /*
         ComponentName component = new ComponentName(context, Telephony.class);
         int status = context.getPackageManager().getComponentEnabledSetting(component);
         if(status == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
@@ -83,15 +80,16 @@ public class Guardian extends Service {
         else {
             Log.d(TAG, "receiver is ["+status+"]");
         }
+        */
 
     }
 
     public static void trigger () {
-        Positioning.trigger();
+        mPositioning.trigger();
     }
 
     public static void stop () {
-        Positioning.stop ();
+        mPositioning.stop ();
     }
 
 
@@ -100,17 +98,6 @@ public class Guardian extends Service {
     public int onStartCommand(Intent intent, int flags, int startID) {
 
         Log.d (TAG, "onStartCommand(): startID="+startID + " flags="+flags);
-
-        /** SERGIO ENG - Previous old code, which is deprecated
-        long now = System.currentTimeMillis();
-        Notification notification = new Notification(
-                android.R.drawable.stat_sys_warning, "Guardian is active.", now);
-        Intent about = new Intent(this, MainActivity.class);
-        PendingIntent pending = PendingIntent.getActivity(this, 0, about, 0);
-        notification.setLatestEventInfo(this, "Guardian", "Guardian is active", pending);
-        startForeground(1, notification);
-        **/
-
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -144,7 +131,6 @@ public class Guardian extends Service {
 
         gNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
-
         return (START_STICKY);
     }
 
@@ -156,11 +142,10 @@ public class Guardian extends Service {
 
     @Override
     public void onDestroy() {
-
         Log.d (TAG, "onDestroy()");
         gNotificationManager.cancel(NOTIFICATION_ID);
-        positioning.terminate(context);
-        positioning = null;
+        mPositioning.terminate();
+        mPositioning = null;
         Detector.terminate();
     }
 

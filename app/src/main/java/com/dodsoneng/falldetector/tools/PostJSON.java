@@ -1,12 +1,7 @@
 package com.dodsoneng.falldetector.tools;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.dodsoneng.falldetector.Telephony;
 
 import org.json.JSONObject;
 
@@ -18,6 +13,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import static com.dodsoneng.falldetector.models.EventInfo.MAX_EVENTS;
 
 /**
  * Created by sergio.eng on 4/6/17.
@@ -46,15 +43,18 @@ public class PostJSON extends AsyncTask<JSONObject, Void, String> {
     /**
      * Background task to call Google Sheets API.
      */
-    protected  String doInBackground(JSONObject ... _jsonObj) {
+    protected  String doInBackground(JSONObject ... _jsonObjects) {
         try {
-            return post (_jsonObj[0]);
+
+            for (int i = 0; i < _jsonObjects.length; i++)
+                post (_jsonObjects[i]);
         }
         catch (Exception e) {
             mLastError = e;
             cancel(true);
             return null;
         }
+        return "SUCCESS";
     }
 
     /**
@@ -118,12 +118,6 @@ public class PostJSON extends AsyncTask<JSONObject, Void, String> {
     @Override
     protected void onPostExecute(String output) {
         Log.d (TAG, "onPostExecute: " + output);
-
-        if (output == null)  {
-            Log.d (TAG, "onPostExecute: No results returned");
-        } else {
-            Log.d (TAG, "onPostExecute: Data updated using the Google Sheets API");
-        }
     }
 
     @Override

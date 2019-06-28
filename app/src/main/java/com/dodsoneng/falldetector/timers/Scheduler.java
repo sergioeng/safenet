@@ -73,6 +73,7 @@ public class Scheduler {
     }
 
     private void setSchedule () {
-        mScheduleList = Configuration.getScheduleList();
+        Configuration conf = Configuration.initiate(mContext);
+        mScheduleList = conf.getScheduleList();
     }
 }

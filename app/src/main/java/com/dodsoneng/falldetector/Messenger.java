@@ -38,10 +38,13 @@ import java.util.Locale;
 public class Messenger extends BroadcastReceiver {
 
     private static String TAG = "FD.Messenger...........";
+    private static  Positioning mPositioning ;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         String action = intent.getAction();
+        mPositioning = Positioning.initiate(context);
 
         Log.d (TAG, "onReceive(): action=["+action+"]");
 
@@ -62,7 +65,7 @@ public class Messenger extends BroadcastReceiver {
                 if (Contact.check(context, contact)) {
                     boolean prevent = false;
                     if (content.contains("POSITION")) {
-                        Positioning.trigger();
+                        mPositioning.trigger();
                         prevent = true;
                     }
                     if (content.contains("ALARM")) {

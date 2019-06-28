@@ -39,32 +39,11 @@ public class SymptomFragment extends DialogFragment  {
 
         Dialog d = getDialog();
 
+        ListView lvDetail = d.findViewById(R.id.lvSymptomList);
 
-            ListView lvDetail = (ListView) d.findViewById(R.id.lvSymptomList);
-
-            // insert data into the list before setting the adapter
-            // otherwise it will generate NullPointerException  - Obviously
-/*
-            SymptomData s1 = new SymptomData();
-            SymptomData s2 = new SymptomData();
-            SymptomData s3 = new SymptomData();
-
-            //// begin simulationm
-            s1.setName("tremedeira");
-            s1.setHasEntry(false);
-            s2.setName("fever");
-            s2.setHasEntry(true);
-            s2.setUnit("graus");
-            s3.setName("fome");
-            s3.setHasEntry(false);
-
-            mSymptomList.add (s1);
-            mSymptomList.add (s2);
-            mSymptomList.add (s3);
-            //// emd of simulatiom
-*/
-            ArrayList symptomList = Configuration.getSymptomList();
-            lvDetail.setAdapter(new SymptomBaseAdapter(d.getContext(), symptomList));
+        Configuration conf = Configuration.initiate(getContext());
+        ArrayList symptomList = conf.getSymptomList();
+        lvDetail.setAdapter(new SymptomBaseAdapter(d.getContext(), symptomList));
 
     }
 

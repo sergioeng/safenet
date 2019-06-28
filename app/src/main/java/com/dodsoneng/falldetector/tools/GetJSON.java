@@ -20,7 +20,7 @@ public class GetJSON extends AsyncTask<String, Void, Integer> {
 
     private static String TAG = "FD.TOOLS.GetJSON.......";
 
-    private JSONArray jsonArray = null;
+    private JSONObject mJSONObj = null;
 
     @Override
     protected void onPreExecute() {
@@ -46,17 +46,13 @@ public class GetJSON extends AsyncTask<String, Void, Integer> {
                 sb.append(json+"\n");
             }
 
-//            JSONObject jsonObject = new JSONObject(sb.toString().trim());
-//            jsonArray = jsonObject.getJSONArray("result");
-            jsonArray = new JSONArray(sb.toString().trim());
+            mJSONObj = new JSONObject(sb.toString().trim());
 
             return 0;
 
         }
         catch(Exception e) {
-            Log.d (TAG, "doInBackground(): =======================================================");
-            Log.d (TAG, "doInBackground(): " + e.getLocalizedMessage());
-            Log.d (TAG, "doInBackground(): =======================================================");
+            Log.d (TAG, "doInBackground(): Exception: [" + e.getLocalizedMessage() + "]");
             return -1;
         }
 
@@ -68,8 +64,8 @@ public class GetJSON extends AsyncTask<String, Void, Integer> {
         Log.d (TAG, "onPostExecute(): "+ret);
     }
 
-    public JSONArray getJsonArray () {
+    public JSONObject getConfig () {
 //        Log.d(TAG, "getJsonArray(). status=" + getStatus() );
-      return jsonArray;
+      return mJSONObj;
     }
 }

@@ -23,6 +23,6 @@
     <string name="key_url_configuration">URLCFG</string>
     <string name="title_url_configuration">Type URL</string>
     <string name="dialog_title_url_configuration">Configuration URL</string>
-    <string name="url_configuration">http://10.10.11.231/api/getSmartphoneConf.php</string>
+    <string name="url_configuration">https://us-central1-arpnet-4dfe4.cloudfunctions.net/app/api/</string>
 
 </resources>
